@@ -9,7 +9,7 @@ const Contact = () => {
       style={{ background: `url(${appointment})` }}
     >
       <div>
-        <h3 className="text-xl  text-primary font-bold">
+        <h3 className="text-xl  text-secondary font-bold">
           Contact Us
         </h3>
         <h1 className=" text-4xl text-white">
