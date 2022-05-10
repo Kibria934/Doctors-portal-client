@@ -25,9 +25,9 @@ const Navbar = () => {
     </>
   );
   return (
-    <div class="navbar bg-base-100">
+    <div class="navbar lg:justify-around bg-base-100">
       <div class="navbar-start">
-        <div class="dropdown">
+        <div class="dropdown ">
           <label tabindex="0" class="btn btn-ghost lg:hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -51,15 +51,12 @@ const Navbar = () => {
             {menuItems}
           </ul>
         </div>
-        <a class="btn btn-ghost normal-case text-xl">daisyUI</a>
+        <a class="btn btn-ghost normal-case text-xl">Doctors Portal</a>
       </div>
       <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal p-0">
         {menuItems}
         </ul>
-      </div>
-      <div class="navbar-end">
-        <a class="btn">Get started</a>
       </div>
     </div>
   );
