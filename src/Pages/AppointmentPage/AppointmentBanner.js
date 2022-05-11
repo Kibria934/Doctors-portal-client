@@ -7,8 +7,8 @@ import bg from '../../assets/images/bg.png'
 
 const AppointmentBanner = ({date,setDate}) => {
   return (
-      <div style={{background:`url(${bg})`}} class="hero min-h-screen ">
-      <div class="hero-content flex justify-around items-center flex-col lg:flex-row-reverse">
+      <div style={{background:`url(${bg})`}} className="hero min-h-screen ">
+      <div className="hero-content flex justify-around items-center flex-col lg:flex-row-reverse">
         <div className="flex-1">
         <img
           src={chair}

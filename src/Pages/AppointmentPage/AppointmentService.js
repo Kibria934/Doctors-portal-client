@@ -1,12 +1,14 @@
 import React from "react";
-import PrimaryBtn from "../SharedPage/PrimaryBtn";
 
-const AppointmentService = ({service}) => {
+const AppointmentService = ({service,setTreatment}) => {
     const {name,slots}=service;
+    const handleModal =()=>{
+      setTreatment(service)
+    }
   return (
-    <div class="card lg:max-w-lg m-4 w-100 bg-base-100 text-center shadow-lg hover:shadow-2xl">
-      <div class="card-body">
-        <h2 class="text-xl text-secondary text-bold text-center">{name}</h2>
+    <div className="card lg:max-w-lg m-4 w-100 bg-base-100 hover:drop-shadow-2xl drop-shadow-lg text-center">
+      <div className="card-body">
+        <h2 className="text-xl text-secondary text-bold text-center">{name}</h2>
         <p className="text-[13px]">
           {
             slots.length? 
@@ -15,8 +17,15 @@ const AppointmentService = ({service}) => {
           }
         </p>
         <p className="text-[13px]">{slots.length} {slots.length>1? "spaces":'space'} available</p>
-        <div class="card-actions justify-center">
-          <button disabled={slots.length===0} className="btn btn-primary px-10 shadow-xl text-uppercase text-white font-bold bg-gradient-to-r from-primary to-secondary">Book Appointment</button>
+        <div className="card-actions justify-center">
+          {/*--------------------- Modal Button-------------------- */}
+        <label disabled={slots.length===0} 
+         for="appointment-modal"
+          class="btn btn-primary px-10 text-uppercase text-white font-bold bg-gradient-to-r from-primary to-secondary"
+          onClick={handleModal}
+          >
+        Book Appointment
+      </label>
         </div>
       </div>
     </div>
