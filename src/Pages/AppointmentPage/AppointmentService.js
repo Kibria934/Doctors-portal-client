@@ -4,6 +4,7 @@ const AppointmentService = ({service,setTreatment}) => {
     const {name,slots}=service;
     const handleModal =()=>{
       setTreatment(service)
+      
     }
   return (
     <div className="card lg:max-w-lg m-4 w-100 bg-base-100 hover:drop-shadow-2xl drop-shadow-lg text-center">
@@ -20,8 +21,8 @@ const AppointmentService = ({service,setTreatment}) => {
         <div className="card-actions justify-center">
           {/*--------------------- Modal Button-------------------- */}
         <label disabled={slots.length===0} 
-         for="appointment-modal"
-          class="btn btn-primary px-10 text-uppercase text-white font-bold bg-gradient-to-r from-primary to-secondary"
+         htmlFor="appointment-modal"
+          className="btn btn-primary px-10 text-uppercase text-white font-bold bg-gradient-to-r from-primary to-secondary"
           onClick={handleModal}
           >
         Book Appointment

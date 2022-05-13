@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Service = ({img,cardTitle}) => {
-  console.log(img);
     return (
         <div className="card w-100 bg-base-100 hover:drop-shadow-2xl drop-shadow-lg">
         <figure className="px-10 pt-10">

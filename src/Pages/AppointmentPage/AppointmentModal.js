@@ -1,10 +1,16 @@
 import React from "react";
 import { format } from "date-fns";
 import { hasSelectionSupport } from "@testing-library/user-event/dist/utils";
+import auth from "../../firebase.init";
+import { useAuthState } from "react-firebase-hooks/auth";
+import Loading from "../SharedPage/Loading";
 
-const AppointmentModal = ({ treatment, date,setTreatment }) => {
-  const {_id, name, slots } = treatment;
-
+const AppointmentModal = ({ treatment, date, setTreatment }) => {
+  const { _id, name, slots } = treatment;
+  const [user, loading, error] = useAuthState(auth);
+  if (loading) {
+    <Loading></Loading>
+  }
   const handleBooking = (e) => {
     e.preventDefault();
     const time = e.target.time.value;
@@ -12,22 +18,22 @@ const AppointmentModal = ({ treatment, date,setTreatment }) => {
     const name = e.target.name.value;
     const email = e.target.email.value;
     const phone = e.target.phone.value;
-    console.log(time,slots,name,email,phone);
-    setTreatment(null)
+    console.log(time, slots, name, email, phone);
+    setTreatment(null);
   };
 
   return (
     <div>
-      <input type="checkbox" id="appointment-modal" class="modal-toggle" />
-      <div class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box">
+      <input type="checkbox" id="appointment-modal" className="modal-toggle" />
+      <div className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
           <label
-            for="appointment-modal"
-            class="btn btn-accent btn-circle absolute right-2 top-2"
+            htmlFor="appointment-modal"
+            className="btn btn-accent btn-circle absolute right-2 top-2"
           >
             X
           </label>
-          <h3 class="font-bold text-2xl">{name}</h3>
+          <h3 className="font-bold text-2xl">{name}</h3>
           <form
             onSubmit={handleBooking}
             className="mt-10 grid grid-cols-1 justify-items-center"
@@ -42,35 +48,40 @@ const AppointmentModal = ({ treatment, date,setTreatment }) => {
             />
             <select
               name="slots"
-              class="select bg-[#E6E6E6] p-3 m-2 rounded-md w-full"
+              className="select bg-[#E6E6E6] p-3 m-2 rounded-md w-full"
             >
-              {slots.map((s) => (
-                <option  value={s}>{s}</option>
+              {slots.map((s,index) => (
+                <option key={index} value={s}>{s}</option>
               ))}
             </select>
             <input
               type="text"
               name="name"
+              value={user?.displayName}
+              readOnly
               placeholder="Full Name"
               className="bg-[#fff] text-lg border-2 p-3 m-2 rounded-md w-full"
             />
+              <input
+                type="email"
+                name="email"
+                value={user?.email}
+                readOnly
+                placeholder="Email"
+                className="bg-[#fff] text-lg border-2 p-3 m-2 rounded-md w-full"
+              />
             <input
               type="number"
               name="phone"
+              autoComplete="none"
               placeholder="Phone Number"
-              className="bg-[#fff] text-lg border-2 p-3 m-2 rounded-md w-full"
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
               className="bg-[#fff] text-lg border-2 p-3 m-2 rounded-md w-full"
             />
             <input
               type="submit"
               value="submit"
               placeholder="Type here"
-              class="btn btn-accent text-white w-full "
+              className="btn btn-accent text-white w-full "
             />
           </form>
         </div>
