@@ -4,22 +4,48 @@ import { hasSelectionSupport } from "@testing-library/user-event/dist/utils";
 import auth from "../../firebase.init";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Loading from "../SharedPage/Loading";
+import { toast } from "react-toastify";
 
-const AppointmentModal = ({ treatment, date, setTreatment }) => {
+const AppointmentModal = ({ treatment, date, setTreatment,refetch }) => {
   const { _id, name, slots } = treatment;
   const [user, loading, error] = useAuthState(auth);
+  const formattedDate = format(date, "PP");
   if (loading) {
-    <Loading></Loading>
+    <Loading></Loading>;
   }
   const handleBooking = (e) => {
     e.preventDefault();
-    const time = e.target.time.value;
-    const slots = e.target.slots.value;
-    const name = e.target.name.value;
-    const email = e.target.email.value;
-    const phone = e.target.phone.value;
-    console.log(time, slots, name, email, phone);
-    setTreatment(null);
+    const slot= e.target.slots.value;
+    const bookingData = {
+      treatmentId: _id,
+      treatment: name,
+      date: formattedDate,
+      slot,
+      patient: user.email,
+      patientName: user.displayName,
+      phone: e.target.phone.value,
+    };
+
+    fetch(`http://localhost:5000/booking`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(bookingData),
+    })
+      .then((res) => res.json())
+      .then((booking) => {
+        console.log(booking);
+        if(booking.success){
+          toast(`Your appointment has been set at ${formattedDate} on ${slot} for ${name}`)
+        }
+        else{
+          toast.error(`Your appointment already set at ${booking.booking.date} on ${booking.booking.slot}.for ${booking.booking.treatment}`)
+
+        }
+        refetch()
+        setTreatment(null);
+      });
   };
 
   return (
@@ -50,8 +76,10 @@ const AppointmentModal = ({ treatment, date, setTreatment }) => {
               name="slots"
               className="select bg-[#E6E6E6] p-3 m-2 rounded-md w-full"
             >
-              {slots.map((s,index) => (
-                <option key={index} value={s}>{s}</option>
+              {slots.map((s, index) => (
+                <option key={index} value={s}>
+                  {s}
+                </option>
               ))}
             </select>
             <input
@@ -62,14 +90,14 @@ const AppointmentModal = ({ treatment, date, setTreatment }) => {
               placeholder="Full Name"
               className="bg-[#fff] text-lg border-2 p-3 m-2 rounded-md w-full"
             />
-              <input
-                type="email"
-                name="email"
-                value={user?.email}
-                readOnly
-                placeholder="Email"
-                className="bg-[#fff] text-lg border-2 p-3 m-2 rounded-md w-full"
-              />
+            <input
+              type="email"
+              name="email"
+              value={user?.email}
+              readOnly
+              placeholder="Email"
+              className="bg-[#fff] text-lg border-2 p-3 m-2 rounded-md w-full"
+            />
             <input
               type="number"
               name="phone"

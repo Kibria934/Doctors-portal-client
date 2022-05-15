@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   useSendPasswordResetEmail,
   useSignInWithEmailAndPassword,
@@ -8,6 +8,7 @@ import auth from "../../firebase.init";
 import { useForm } from "react-hook-form";
 import Loading from "../SharedPage/Loading";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import useToken from "../../hooks/useToken";
 
 const Login = () => {
   /*     ------------------ IMPORTANT INFO(START) -----------------*/
@@ -22,6 +23,8 @@ const Login = () => {
   const [sendPasswordResetEmail, resetSending, resetError] =
     useSendPasswordResetEmail(auth);
   const [email, setEmail] = useState("");
+  const [token] = useToken(user || gUser);
+
   /* -------------------------- CHEAKING USER -------------------- */
   let signInError;
   let forgotMessage;
@@ -29,10 +32,12 @@ const Login = () => {
   let location = useLocation();
   let from = location.state?.from?.pathname || "/";
 
-  if (user || gUser) {
-    console.log("User is:", user);
-    navigate(from, { replace: true });
-  }
+  useEffect(() => {
+    if (token) {
+      console.log(token);
+      navigate(from, { replace: true });
+    }
+  }, [token, navigate, from]);
   if (loading || gLoading) {
     return <Loading></Loading>;
   }
@@ -75,7 +80,6 @@ const Login = () => {
   const onSubmit = (data) => {
     setEmail(data.email);
     signInWithEmailAndPassword(data.email, data.password);
-  
   };
 
   return (
@@ -85,11 +89,23 @@ const Login = () => {
           <h2 className="text-2xl font-semibold text-center">Login</h2>
           {error && (
             <div class="alert alert-error shadow-lg">
-            <div>
-              <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-              {signInError}
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="stroke-current flex-shrink-0 h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                {signInError}
+              </div>
             </div>
-          </div>
           )}
           {/*================ SUBMIT FORM(START) ================*/}
           <form onSubmit={handleSubmit(onSubmit)}>

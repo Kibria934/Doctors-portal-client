@@ -9,6 +9,7 @@ import auth from "../../firebase.init";
 import { useForm } from "react-hook-form";
 import Loading from "../SharedPage/Loading";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import useToken from "../../hooks/useToken";
 
 const Signup = () => {
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
@@ -22,6 +23,7 @@ const Signup = () => {
   const [updateProfile, updating, updateError] = useUpdateProfile(auth);
   const [sendEmailVerification, sending, VerifyError] =
     useSendEmailVerification(auth);
+    const [token]= useToken(user || gUser)
 
   /* -------------------------- CHEAKING USER -------------------- */
   let signInError;
@@ -30,11 +32,11 @@ const Signup = () => {
   let from = location.state?.from?.pathname || "/";
 
   useEffect(() => {
-    if (user || gUser) {
-      console.log("User is:", user);
+    if (token) {
+      console.log(token);
       navigate(from, { replace: true });
     }
-  }, [user, gUser]);
+  }, [token,navigate,from]);
 
   if (loading || gLoading || updating || sending) {
     return <Loading></Loading>;
