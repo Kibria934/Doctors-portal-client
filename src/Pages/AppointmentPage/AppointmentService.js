@@ -1,7 +1,7 @@
 import React from "react";
 
 const AppointmentService = ({service,setTreatment}) => {
-    const {name,slots}=service;
+    const {name,slots,price}=service;
     const handleModal =()=>{
       setTreatment(service)
       
@@ -17,6 +17,7 @@ const AppointmentService = ({service,setTreatment}) => {
             <span className="text-red-500">Please Try Another Day</span>
           }
         </p>
+        <p className="text-lg text-bold text-center">Price:${price}</p>
         <p className="text-[13px]">{slots.length} {slots.length>1? "spaces":'space'} available</p>
         <div className="card-actions justify-center">
           {/*--------------------- Modal Button-------------------- */}

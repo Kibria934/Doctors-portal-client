@@ -1,37 +1,38 @@
 import { signOut } from "firebase/auth";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import auth from "../../firebase.init";
 
 const Navbar = () => {
   const [user, loading, error] = useAuthState(auth);
+  
   const menuItems = (
     <>
       <li>
-        <Link to={"/home"}>Home</Link>
+        <NavLink to={"/home"}>Home</NavLink>
       </li>
       <li>
-        <Link to={"/about"}>About </Link>
+        <NavLink to={"/about"}>About </NavLink>
       </li>
       <li>
-        <Link to={"/appointment"}>Appointment </Link>
+        <NavLink to={"/appointment"}>Appointment </NavLink>
       </li>
       <li>
-        <Link to={"/reviews"}>Reviews </Link>
+        <NavLink to={"/reviews"}>Reviews </NavLink>
       </li>
       <li>
-        <Link to={"/contact"}>Contact </Link>
+        <NavLink  to={"/contact"}>Contact </NavLink>
       </li>
       {user && (
         <li>
-          <Link to={"/dashboard"}>Dashboard </Link>
+          <NavLink to={"/dashboard"}>Dashboard </NavLink>
         </li>
       )}
       <li>
         {user ? (
           <span
-            className="btn btn-accent text-white"
+            className=""
             onClick={() => {
               signOut(auth);
               localStorage.removeItem("accessToken");
@@ -77,11 +78,11 @@ const Navbar = () => {
       <div className="navbar-center justify-between hidden lg:flex">
         <ul className="menu menu-horizontal p-0">{menuItems}</ul>
       </div>
-      <div className="navbar-end">
-        <label
+     <div className="navbar-end">
+        { user && <label
           tabIndex="1"
           for="dashboard-sidebar"
-          className="btn btn-ghost lg:hidden"
+          className="btn  btn-ghost lg:hidden "
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +98,7 @@ const Navbar = () => {
               d="M4 6h16M4 12h8m-8 6h16"
             />
           </svg>
-        </label>
+        </label>}
       </div>
     </div>
   );

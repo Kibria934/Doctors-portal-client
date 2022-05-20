@@ -1,6 +1,5 @@
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Route, Routes } from "react-router-dom";
-import "./App.css";
 import auth from "./firebase.init";
 import About from "./Pages/About/About";
 import AppointmentPage from "./Pages/AppointmentPage/AppointmentPage";
@@ -10,7 +9,7 @@ import Signup from "./Pages/Login/Signup";
 import Loading from "./Pages/SharedPage/Loading";
 import Navbar from "./Pages/SharedPage/Navbar";
 import RequiredAuth from "./Pages/SharedPage/RequiredAuth";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Dashboard from "./Pages/DashBoard/Dashboard";
 import MyAppointment from "./Pages/DashBoard/MyAppointment";
@@ -18,6 +17,9 @@ import MyReview from "./Pages/DashBoard/MyReview";
 import MyHistory from "./Pages/DashBoard/MyHistory";
 import AllUsers from "./Pages/DashBoard/AllUsers";
 import RequiredAdmin from "./Pages/SharedPage/RequiredAdmin";
+import AddDoctor from "./Pages/DashBoard/AddDoctor";
+import Doctors from "./Pages/DashBoard/Doctors";
+import Payment from "./Pages/DashBoard/Payment";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
@@ -57,6 +59,28 @@ function App() {
               <RequiredAdmin>
                 <AllUsers></AllUsers>
               </RequiredAdmin>
+            }
+          ></Route>
+          <Route
+            path="addDoctor"
+            element={
+              <RequiredAdmin>
+                <AddDoctor></AddDoctor>
+              </RequiredAdmin>
+            }
+          ></Route>
+          <Route
+            path="doctors"
+            element={
+              <RequiredAdmin>
+                <Doctors></Doctors>
+              </RequiredAdmin>
+            }
+          ></Route>
+          <Route
+            path="payment/:id"
+            element={
+                <Payment></Payment>
             }
           ></Route>
         </Route>

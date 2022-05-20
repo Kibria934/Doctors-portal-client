@@ -11,7 +11,7 @@ const AllUsers = () => {
     isLoading,
     refetch,
   } = useQuery("users", () =>
-    fetch(`http://localhost:5000/users`,{
+    fetch(`https://shrouded-wildwood-70641.herokuapp.com/users`,{
       method:'GET',
       headers:{
         authorization:`Bearer ${localStorage.getItem('accessToken')}`
@@ -23,15 +23,16 @@ const AllUsers = () => {
      return res.json()
     })
   );
+  
   if (isLoading) {
     return <Loading></Loading>;
-  }console.log(users);
+  }
   
   return (
     <div>
-      <h5>All user:{users.length}</h5>
+      <h5>All user:{users?.length}</h5>
       <div className="overflow-x-auto">
-        <table className="table w-full">
+        <table className="table lg:w-full  sm:w-44">
           <thead>
             <tr>
               <th></th>
@@ -42,7 +43,7 @@ const AllUsers = () => {
           </thead>
           <tbody>
             {users?.map((u,index) => (
-              <UserRow user={u} refetch={refetch} key={index}></UserRow>
+              <UserRow user={u} index={index} refetch={refetch} key={index}></UserRow>
             ))}
           </tbody>
         </table>

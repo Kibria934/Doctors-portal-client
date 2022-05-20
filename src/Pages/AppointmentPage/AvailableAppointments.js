@@ -11,9 +11,8 @@ const AvailableAppointments = ({ date }) => {
 
   const { data: services, isLoading,refetch } = useQuery(
     ["available", formattedDate],
-    () => fetch(`http://localhost:5000/available?date=${formattedDate}`).then(
+    () => fetch(`https://shrouded-wildwood-70641.herokuapp.com/available?date=${formattedDate}`).then(
         (res) => res.json()));
-    console.log(services);
     
   if (isLoading) {
     return <Loading></Loading>;

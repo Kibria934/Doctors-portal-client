@@ -7,12 +7,12 @@ import bg from '../../assets/images/bg.png'
 
 const AppointmentBanner = ({date,setDate}) => {
   return (
-      <div style={{background:`url(${bg})`}} className="hero  min-h-screen ">
-      <div className="hero-content flex justify-around items-center flex-col lg:flex-row-reverse">
+      <div style={{background:`url(${bg})`}} className="hero min-h-screen ">
+      <div className="hero-content flex justify-center items-center flex-col lg:flex-row-reverse">
         <div className="flex-1">
         <img
           src={chair}
-          className="lg:max-w-2xl max-w-sm rounded-lg  shadow-2xl"
+          className="lg:max-w-2xl sm:max-w-sm max-w-xs md:max-w-sm rounded-lg  shadow-2xl"
           alt="Dentist Chair"
         />
         </div>

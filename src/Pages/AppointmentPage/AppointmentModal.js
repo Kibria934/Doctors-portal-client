@@ -7,7 +7,7 @@ import Loading from "../SharedPage/Loading";
 import { toast } from "react-toastify";
 
 const AppointmentModal = ({ treatment, date, setTreatment,refetch }) => {
-  const { _id, name, slots } = treatment;
+  const { _id, name, slots,price } = treatment;
   const [user, loading, error] = useAuthState(auth);
   const formattedDate = format(date, "PP");
   if (loading) {
@@ -21,12 +21,13 @@ const AppointmentModal = ({ treatment, date, setTreatment,refetch }) => {
       treatment: name,
       date: formattedDate,
       slot,
+      price,
       patient: user.email,
       patientName: user.displayName,
       phone: e.target.phone.value,
     };
 
-    fetch(`http://localhost:5000/booking`, {
+    fetch(`https://shrouded-wildwood-70641.herokuapp.com/booking`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -35,7 +36,6 @@ const AppointmentModal = ({ treatment, date, setTreatment,refetch }) => {
     })
       .then((res) => res.json())
       .then((booking) => {
-        console.log(booking);
         if(booking.success){
           toast(`Your appointment has been set at ${formattedDate} on ${slot} for ${name}`)
         }
